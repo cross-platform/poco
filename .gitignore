@@ -144,3 +144,9 @@ cmake-build/
 *.bak
 stage/
 releases/
+
+# OpenSSL #
+###################
+builddir
+openssl/subprojects/openssl-*
+openssl/subprojects/packagecache

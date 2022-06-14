@@ -1,0 +1,56 @@
+name: Prebuild
+
+on:
+  push:
+    branches: [ prebuild ]
+
+jobs:
+  prebuild:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-11, windows-2022]
+
+    steps:
+    - if: matrix.os == 'windows-2022'
+      name: Configure MSVC (Windows)
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Install Meson and Ninja
+      run: |
+        pip3 install --upgrade meson ninja
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Build OpenSSL
+      run: |
+        cd openssl
+        meson setup --buildtype=release builddir
+        meson compile -C builddir
+
+    - if: matrix.os == 'macos-11'
+      name: Build Poco (MacOS)
+      run: |
+        mkdir -p builddir
+        cd builddir
+        ../configure --cflags=-mmacosx-version-min=10.15 --static --no-samples --no-tests --everything --omit=Data/ODBC,Data/MySQL,Data/PostgreSQL --include-path=openssl/subprojects/openssl-3.0.2/include --library-path=openssl/builddir/subprojects/openssl-3.0.2
+        make -j8
+
+    - if: matrix.os == 'windows-2022'
+      name: Build Poco /MT (Windows)
+      run: |
+        mkdir -p builddir/mt
+        cd builddir/mt
+        ../../configure --cflags=/MT --static --no-samples --no-tests --everything --omit=Data/ODBC,Data/MySQL,Data/PostgreSQL --include-path=openssl/subprojects/openssl-3.0.2/include --library-path=openssl/builddir/subprojects/openssl-3.0.2
+        make -j8
+
+    - if: matrix.os == 'windows-2022'
+      name: Build Poco /MD (Windows)
+      run: |
+        mkdir -p builddir/md
+        cd builddir/md
+        ../../configure --cflags=/MD --static --no-samples --no-tests --everything --omit=Data/ODBC,Data/MySQL,Data/PostgreSQL --include-path=openssl/subprojects/openssl-3.0.2/include --library-path=openssl/builddir/subprojects/openssl-3.0.2
+        make -j8

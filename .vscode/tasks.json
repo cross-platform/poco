@@ -1,0 +1,51 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "windows": {
+                "command": [
+                    "cd openssl;",
+                    "meson setup builddir --buildtype=debug;",
+                    "meson compile -C builddir;",
+                    "cd ..;",
+                    "mkdir -p builddir;",
+                    "cd builddir;",
+                    "../configure --cflags=/MT --static --no-samples --no-tests --everything --omit=Data/ODBC,Data/MySQL,Data/PostgreSQL --include-path=openssl/subprojects/openssl-3.0.2/include --library-path=openssl/builddir/subprojects/openssl-3.0.2;",
+                    "make -j8"
+                ],
+                "problemMatcher": {
+                    "base": "$msCompile",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceFolder}/builddir"
+                    ]
+                }
+            },
+            "osx": {
+                "command": [
+                    "cd openssl &&",
+                    "meson setup builddir --buildtype=debug &&",
+                    "meson compile -C builddir &&",
+                    "cd .. &&",
+                    "mkdir -p builddir &&",
+                    "cd builddir &&",
+                    "../configure --cflags=-mmacosx-version-min=10.15 --static --no-samples --no-tests --everything --omit=Data/ODBC,Data/MySQL,Data/PostgreSQL --include-path=openssl/subprojects/openssl-3.0.2/include --library-path=openssl/builddir/subprojects/openssl-3.0.2 &&",
+                    "make -j8"
+                ],
+                "problemMatcher": {
+                    "base": "$gcc",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceFolder}/builddir/"
+                    ]
+                }
+            }
+        }
+    ]
+}
