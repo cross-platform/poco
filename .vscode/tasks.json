@@ -35,7 +35,8 @@
                     "cd .. &&",
                     "mkdir -p builddir &&",
                     "cd builddir &&",
-                    "cmake .. -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DOPENSSL_INCLUDE_DIR=../openssl/subprojects/openssl-3.0.2/generated-config/archs/darwin64-x86_64-cc/asm/include -DOPENSSL_CRYPTO_LIBRARY=../openssl/builddir/subprojects/openssl-3.0.2/libcrypto.a -DOPENSSL_SSL_LIBRARY=../openssl/builddir/subprojects/openssl-3.0.2/libssl.a &&",
+                    "cp -r ../openssl/subprojects/openssl-3.0.2/generated-config/archs/darwin64-x86_64-cc/asm/include ../openssl/subprojects/openssl-3.0.2 &&",
+                    "cmake .. -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DOPENSSL_INCLUDE_DIR=../openssl/subprojects/openssl-3.0.2/include -DOPENSSL_CRYPTO_LIBRARY=../openssl/builddir/subprojects/openssl-3.0.2/libcrypto.a -DOPENSSL_SSL_LIBRARY=../openssl/builddir/subprojects/openssl-3.0.2/libssl.a &&",
                     "cmake --build . -- -j8"
                 ],
                 "problemMatcher": {
