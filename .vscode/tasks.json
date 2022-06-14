@@ -11,13 +11,13 @@
             "windows": {
                 "command": [
                     "cd openssl;",
-                    "meson setup builddir --buildtype=debug;",
+                    "meson setup builddir --buildtype=release;",
                     "meson compile -C builddir;",
                     "cd ..;",
                     "mkdir -p builddir;",
                     "cd builddir;",
-                    "../configure --cflags=/MT --static --no-samples --no-tests --everything --omit=Data/ODBC,Data/MySQL,Data/PostgreSQL --include-path=openssl/subprojects/openssl-3.0.2/include --library-path=openssl/builddir/subprojects/openssl-3.0.2;",
-                    "make -j8"
+                    "cmake .. -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DOPENSSL_INCLUDE_DIR=../openssl/subprojects/openssl-3.0.2/generated-config/archs/darwin64-x86_64-cc/asm/include -DOPENSSL_CRYPTO_LIBRARY=../openssl/builddir/subprojects/openssl-3.0.2/libcrypto.a -DOPENSSL_SSL_LIBRARY=../openssl/builddir/subprojects/openssl-3.0.2/libssl.a;",
+                    "cmake --build . -- -j8"
                 ],
                 "problemMatcher": {
                     "base": "$msCompile",
@@ -30,13 +30,13 @@
             "osx": {
                 "command": [
                     "cd openssl &&",
-                    "meson setup builddir --buildtype=debug &&",
+                    "meson setup builddir --buildtype=release &&",
                     "meson compile -C builddir &&",
                     "cd .. &&",
                     "mkdir -p builddir &&",
                     "cd builddir &&",
-                    "../configure --cflags=-mmacosx-version-min=10.15 --static --no-samples --no-tests --everything --omit=Data/ODBC,Data/MySQL,Data/PostgreSQL --include-path=openssl/subprojects/openssl-3.0.2/include --library-path=openssl/builddir/subprojects/openssl-3.0.2 &&",
-                    "make -j8"
+                    "cmake .. -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DOPENSSL_INCLUDE_DIR=../openssl/subprojects/openssl-3.0.2/generated-config/archs/darwin64-x86_64-cc/asm/include -DOPENSSL_CRYPTO_LIBRARY=../openssl/builddir/subprojects/openssl-3.0.2/libcrypto.a -DOPENSSL_SSL_LIBRARY=../openssl/builddir/subprojects/openssl-3.0.2/libssl.a &&",
+                    "cmake --build . -- -j8"
                 ],
                 "problemMatcher": {
                     "base": "$gcc",
