@@ -11,7 +11,7 @@
             "windows": {
                 "command": [
                     "cd openssl;",
-                    "meson setup builddir --buildtype=release;",
+                    "meson setup builddir --buildtype=release -Dmt=enabled;",
                     "meson compile -C builddir;",
                     "cd ..;",
                     "mkdir -force builddir;",

@@ -28,7 +28,7 @@ jobs:
     - name: Build OpenSSL
       run: |
         cd openssl
-        meson setup builddir --buildtype=release
+        meson setup builddir --buildtype=release -Dmt=enabled
         meson compile -C builddir
 
     - if: matrix.os == 'macos-11'

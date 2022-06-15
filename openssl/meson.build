@@ -6,7 +6,11 @@ project('openssl', 'c',
 )
 
 if host_machine.system() == 'windows'
-    add_global_arguments('/MT', language: 'c')
+    if get_option('mt').enabled()
+        add_global_arguments('/MT', language: 'c')
+    else
+        add_global_arguments('/MD', language: 'c')
+    endif
 else
     add_global_arguments('-mmacosx-version-min=10.15', language: 'c')
 endif
