@@ -56,7 +56,7 @@ jobs:
         cmake .. -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF
         cmake --build . --config Debug -- -j8
         cmake --build . --target install
-        python3 ../scripts/bundle.py debug
+        python3 ../scripts/bundle.py debug done
 
     - if: matrix.os == 'windows-2022'
       name: Build - Release /MT (Windows)
