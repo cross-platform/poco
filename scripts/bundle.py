@@ -2,17 +2,75 @@ import os
 import platform
 import shutil
 import sys
+import glob
 
-if len(sys.argv) != 2:
-    print('Usage: python bundle.py path/to/bundle')
+if len(sys.argv) < 2:
+    print('Usage: python bundle.py config')
     exit(1)
 
-bundledir = sys.argv[1]
-builddir = bundledir + "/.."
+config = sys.argv[1]
+
+curdir = os.path.dirname(os.path.realpath(__file__))
+srcdir = curdir + '/..'
+bundledir = curdir + '/bundle'
+configdir = bundledir + '/' + config
 
 if platform.system() == 'Windows':
-    bundlezip = builddir + "/Poco-Win"
+    objext = 'obj'
 else:
-    bundlezip = builddir + "/Poco-Mac"
+    objext = 'o'
 
-shutil.make_archive(bundlezip, 'zip', bundledir)
+# bundle openssl includes
+
+if os.path.exists(bundledir + '/include'):
+    shutil.rmtree(bundledir + '/include')
+
+shutil.copytree(srcdir + '/openssl/subprojects/openssl-3.0.2/include', bundledir + '/include')
+
+# bundle poco includes
+
+shutil.copytree(srcdir + '/builddir/bundle/include/Poco', bundledir + '/include/Poco')
+
+# bundle openssl objects
+
+if os.path.exists(configdir):
+    shutil.rmtree(configdir)
+
+os.makedirs(configdir + '/libcrypto')
+
+files = glob.iglob(os.path.join(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libcrypto.a.p/*.o'))
+for file in files:
+    if os.path.isfile(file):
+        shutil.copy2(file, configdir + '/libcrypto')
+
+os.makedirs(configdir + '/libssl')
+
+files = glob.iglob(os.path.join(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libssl.a.p/*.o'))
+for file in files:
+    if os.path.isfile(file):
+        shutil.copy2(file, configdir + '/libssl')
+
+# bundle poco objects
+
+components = ['ActiveRecord', 'Crypto', 'Data', 'Encodings', 'Foundation', 'JSON', 'JWT', 'MongoDB',
+              'Net', 'NetSSL_OpenSSL', 'PageCompiler', 'Redis', 'Util', 'XML', 'Zip']
+
+for component in components:
+    component_base = component.split('_')[0]
+
+    os.makedirs(configdir + '/Poco/' + component_base)
+
+    files = glob.iglob(os.path.join(srcdir + '/builddir/' + component + '/CMakeFiles/' + component_base + '.dir/src/*.o'))
+    for file in files:
+        if os.path.isfile(file):
+            shutil.copy2(file, configdir + '/Poco/' + component_base)
+
+# zip
+
+if platform.system() == 'Windows':
+    bundlezip = curdir + "/Poco-Win"
+else:
+    bundlezip = curdir + "/Poco-Mac"
+
+if len(sys.argv) > 2:
+    shutil.make_archive(bundlezip, 'zip', bundledir)

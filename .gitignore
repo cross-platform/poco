@@ -150,3 +150,4 @@ releases/
 builddir
 openssl/subprojects/openssl-*
 openssl/subprojects/packagecache
+scripts/bundle
