@@ -15,11 +15,6 @@ srcdir = curdir + '/..'
 bundledir = curdir + '/bundle'
 configdir = bundledir + '/' + config
 
-if platform.system() == 'Windows':
-    objext = 'obj'
-else:
-    objext = 'o'
-
 # bundle openssl includes
 
 if os.path.exists(bundledir + '/include'):
@@ -38,14 +33,22 @@ if os.path.exists(configdir):
 
 os.makedirs(configdir + '/libcrypto')
 
-files = glob.iglob(os.path.join(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libcrypto.a.p/*.o'))
+if platform.system() == 'Windows':
+    files = glob.iglob(os.path.join(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libcrypto.a.p/*.obj'))
+else:
+    files = glob.iglob(os.path.join(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libcrypto.a.p/*.o'))
+
 for file in files:
     if os.path.isfile(file):
         shutil.copy2(file, configdir + '/libcrypto')
 
 os.makedirs(configdir + '/libssl')
 
-files = glob.iglob(os.path.join(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libssl.a.p/*.o'))
+if platform.system() == 'Windows':
+    files = glob.iglob(os.path.join(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libssl.a.p/*.obj'))
+else:
+    files = glob.iglob(os.path.join(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libssl.a.p/*.o'))
+
 for file in files:
     if os.path.isfile(file):
         shutil.copy2(file, configdir + '/libssl')
@@ -60,7 +63,14 @@ for component in components:
 
     os.makedirs(configdir + '/Poco/' + component_base)
 
-    files = glob.iglob(os.path.join(srcdir + '/builddir/' + component + '/CMakeFiles/' + component_base + '.dir/src/*.o'))
+    if platform.system() == 'Windows':
+        if 'release' in config:
+            files = glob.iglob(os.path.join(srcdir + '/builddir/' + component + '/' + component_base + '.dir/Release/*.obj'))
+        else:
+            files = glob.iglob(os.path.join(srcdir + '/builddir/' + component + '/' + component_base + '.dir/Debug/*.obj'))
+    else:
+        files = glob.iglob(os.path.join(srcdir + '/builddir/' + component + '/CMakeFiles/' + component_base + '.dir/src/*.o'))
+
     for file in files:
         if os.path.isfile(file):
             shutil.copy2(file, configdir + '/Poco/' + component_base)
