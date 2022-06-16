@@ -79,7 +79,6 @@ for component in components:
 # patch
 
 shutil.copy2(curdir + '/patch/globo', bundledir + '/poco/globo')
-shutil.copy2(curdir + '/patch/meson_options.txt', bundledir + '/poco/meson_options.txt')
 shutil.copy2(curdir + '/patch/meson.build', bundledir + '/poco/meson.build')
 
 # zip

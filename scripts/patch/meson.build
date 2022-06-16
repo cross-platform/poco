@@ -3,14 +3,14 @@ project('poco')
 python = find_program('python', 'python3', required : true)
 
 if host_machine.system() == 'windows'
-    if get_option('mt').enabled()
+    if get_option('default_library') == 'static'
 		config = 'release_mt'
     else
 		config = 'release_md'
     endif
 
 	poco_dep = declare_dependency(
-		compile_args: '-DPOCO_NO_AUTOMATIC_LIBS',
+		compile_args: ['-DPOCO_NO_AUTOMATIC_LIBS', '-DPOCO_STATIC'],
 		include_directories: 'win/include'
 	)
 else

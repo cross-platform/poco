@@ -68,7 +68,7 @@ jobs:
         mkdir -force builddir
         cd builddir
         cp -r -force ../openssl/subprojects/openssl-3.0.2/generated-config/archs/VC-WIN64A/no-asm/include ../openssl/subprojects/openssl-3.0.2
-        cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DPOCO_MT=ON -DCMAKE_CXX_FLAGS="-DPOCO_NO_AUTOMATIC_LIBS"
+        cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DPOCO_MT=ON -DCMAKE_CXX_FLAGS="-DPOCO_NO_AUTOMATIC_LIBS -DPOCO_STATIC"
         cmake --build . --config Release
         cmake --build . --target install
         python3 ../scripts/bundle.py win release_mt
@@ -86,7 +86,7 @@ jobs:
         mkdir -force builddir
         cd builddir
         cp -r -force ../openssl/subprojects/openssl-3.0.2/generated-config/archs/VC-WIN64A/no-asm/include ../openssl/subprojects/openssl-3.0.2
-        cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DPOCO_MT=OFF -DCMAKE_CXX_FLAGS="-DPOCO_NO_AUTOMATIC_LIBS"
+        cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DPOCO_MT=OFF -DCMAKE_CXX_FLAGS="-DPOCO_NO_AUTOMATIC_LIBS -DPOCO_STATIC"
         cmake --build . --config Release
         cmake --build . --target install
         python3 ../scripts/bundle.py win release_md done
