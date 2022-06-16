@@ -134,6 +134,6 @@ jobs:
         replacesArtifacts: true
         tag: build-${{ github.run_number }}
         name: Build ${{ github.run_number }}
-        artifacts: scripts/Poco*.zip
+        artifacts: scripts/poco-*.zip
         artifactContentType: application/zip
         commit: ${{ github.sha }}
