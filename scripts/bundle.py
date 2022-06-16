@@ -4,27 +4,28 @@ import shutil
 import sys
 import glob
 
-if len(sys.argv) < 2:
-    print('Usage: python bundle.py config')
+if len(sys.argv) < 3:
+    print('Usage: python bundle.py os config')
     exit(1)
 
-config = sys.argv[1]
+opsys = sys.argv[1]
+config = sys.argv[2]
 
 curdir = os.path.dirname(os.path.realpath(__file__))
 srcdir = curdir + '/..'
 bundledir = curdir + '/bundle'
-configdir = bundledir + '/' + config
+configdir = bundledir + '/poco/' + opsys + '/' + config
 
 # bundle openssl includes
 
-if os.path.exists(bundledir + '/include'):
-    shutil.rmtree(bundledir + '/include')
+if os.path.exists(bundledir + '/poco/' + opsys + '/include'):
+    shutil.rmtree(bundledir + '/poco/' + opsys + '/include')
 
-shutil.copytree(srcdir + '/openssl/subprojects/openssl-3.0.2/include', bundledir + '/include')
+shutil.copytree(srcdir + '/openssl/subprojects/openssl-3.0.2/include', bundledir + '/poco/' + opsys + '/include')
 
 # bundle poco includes
 
-shutil.copytree(srcdir + '/builddir/bundle/include/Poco', bundledir + '/include/Poco')
+shutil.copytree(srcdir + '/builddir/bundle/include/Poco', bundledir + '/poco/' + opsys + '/include/Poco')
 
 # bundle openssl objects
 
@@ -75,12 +76,17 @@ for component in components:
         if os.path.isfile(file):
             shutil.copy2(file, configdir + '/Poco/' + component_base)
 
+# patch
+
+shutil.copy2(curdir + '/patch/globo', bundledir + '/poco/globo')
+shutil.copy2(curdir + '/patch/meson.build', bundledir + '/poco/meson.build')
+
 # zip
 
 if platform.system() == 'Windows':
-    bundlezip = curdir + "/Poco-Win"
+    bundlezip = curdir + '/poco-win'
 else:
-    bundlezip = curdir + "/Poco-Mac"
+    bundlezip = curdir + '/poco-mac'
 
-if len(sys.argv) > 2:
+if len(sys.argv) > 3:
     shutil.make_archive(bundlezip, 'zip', bundledir)

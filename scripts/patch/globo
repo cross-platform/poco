@@ -1,0 +1,12 @@
+import glob
+import platform
+import sys
+
+component = sys.argv[1]
+
+if platform.system() == 'Windows':
+	for i in glob.glob('./win/release/Poco/' + component + '/*.obj'):
+		print(i)
+else:
+	for i in glob.glob('./mac/release/Poco/' + component + '/*.o'):
+		print(i)
