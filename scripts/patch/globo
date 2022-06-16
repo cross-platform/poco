@@ -2,11 +2,12 @@ import glob
 import platform
 import sys
 
-component = sys.argv[1]
+config = sys.argv[1]
+component = sys.argv[2]
 
 if platform.system() == 'Windows':
-	for i in glob.glob('./win/release/Poco/' + component + '/*.obj'):
+	for i in glob.glob('./win/' + config + '/Poco/' + component + '/*.obj'):
 		print(i)
 else:
-	for i in glob.glob('./mac/release/Poco/' + component + '/*.o'):
+	for i in glob.glob('./mac/' + config + '/Poco/' + component + '/*.o'):
 		print(i)
