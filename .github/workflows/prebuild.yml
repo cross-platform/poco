@@ -35,28 +35,28 @@ jobs:
         mkdir -p builddir
         cd builddir
         cp -r ../openssl/subprojects/openssl-3.0.2/generated-config/archs/darwin64-x86_64-cc/asm/include ../openssl/subprojects/openssl-3.0.2
-        cmake .. -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF
+        cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF
         cmake --build . --config Release -- -j8
         cmake --build . --target install
-        python3 ../scripts/bundle.py release
+        python3 ../scripts/bundle.py release done
 
-    - if: matrix.os == 'macos-11'
-      name: Build - Debug (MacOS)
-      run: |
-        rm -r builddir
-        rm -r openssl/builddir
+    # - if: matrix.os == 'macos-11'
+    #   name: Build - Debug (MacOS)
+    #   run: |
+    #     rm -r builddir
+    #     rm -r openssl/builddir
 
-        cd openssl
-        meson setup builddir --buildtype=debug
-        meson compile -C builddir
-        cd ..
-        mkdir -p builddir
-        cd builddir
-        cp -r ../openssl/subprojects/openssl-3.0.2/generated-config/archs/darwin64-x86_64-cc/asm/include ../openssl/subprojects/openssl-3.0.2
-        cmake .. -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF
-        cmake --build . --config Debug -- -j8
-        cmake --build . --target install
-        python3 ../scripts/bundle.py debug done
+    #     cd openssl
+    #     meson setup builddir --buildtype=debug
+    #     meson compile -C builddir
+    #     cd ..
+    #     mkdir -p builddir
+    #     cd builddir
+    #     cp -r ../openssl/subprojects/openssl-3.0.2/generated-config/archs/darwin64-x86_64-cc/asm/include ../openssl/subprojects/openssl-3.0.2
+    #     cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF
+    #     cmake --build . --config Debug -- -j8
+    #     cmake --build . --target install
+    #     python3 ../scripts/bundle.py debug done
 
     - if: matrix.os == 'windows-2022'
       name: Build - Release /MT (Windows)
@@ -68,64 +68,64 @@ jobs:
         mkdir -force builddir
         cd builddir
         cp -r -force ../openssl/subprojects/openssl-3.0.2/generated-config/archs/VC-WIN64A/no-asm/include ../openssl/subprojects/openssl-3.0.2
-        cmake .. -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DPOCO_MT=ON
+        cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DPOCO_MT=ON -DCMAKE_CXX_FLAGS="-DPOCO_NO_AUTOMATIC_LIBS"
         cmake --build . --config Release
         cmake --build . --target install
-        python3 ../scripts/bundle.py release_mt
+        python3 ../scripts/bundle.py release done
 
-    - if: matrix.os == 'windows-2022'
-      name: Build - Release /MD (Windows)
-      run: |
-        rm -r builddir
-        rm -r openssl/builddir
+    # - if: matrix.os == 'windows-2022'
+    #   name: Build - Release /MD (Windows)
+    #   run: |
+    #     rm -r builddir
+    #     rm -r openssl/builddir
 
-        cd openssl
-        meson setup builddir --buildtype=release -Dmt=disabled
-        meson compile -C builddir
-        cd ..
-        mkdir -force builddir
-        cd builddir
-        cp -r -force ../openssl/subprojects/openssl-3.0.2/generated-config/archs/VC-WIN64A/no-asm/include ../openssl/subprojects/openssl-3.0.2
-        cmake .. -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DPOCO_MT=OFF
-        cmake --build . --config Release
-        cmake --build . --target install
-        python3 ../scripts/bundle.py release_md
+    #     cd openssl
+    #     meson setup builddir --buildtype=release -Dmt=disabled
+    #     meson compile -C builddir
+    #     cd ..
+    #     mkdir -force builddir
+    #     cd builddir
+    #     cp -r -force ../openssl/subprojects/openssl-3.0.2/generated-config/archs/VC-WIN64A/no-asm/include ../openssl/subprojects/openssl-3.0.2
+    #     cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DPOCO_MT=OFF
+    #     cmake --build . --config Release
+    #     cmake --build . --target install
+    #     python3 ../scripts/bundle.py release_md 
 
-    - if: matrix.os == 'windows-2022'
-      name: Build - Debug /MT (Windows)
-      run: |
-        rm -r builddir
-        rm -r openssl/builddir
+    # - if: matrix.os == 'windows-2022'
+    #   name: Build - Debug /MT (Windows)
+    #   run: |
+    #     rm -r builddir
+    #     rm -r openssl/builddir
 
-        cd openssl
-        meson setup builddir --buildtype=debug -Dmt=enabled
-        meson compile -C builddir
-        cd ..
-        mkdir -force builddir
-        cd builddir
-        cp -r -force ../openssl/subprojects/openssl-3.0.2/generated-config/archs/VC-WIN64A/no-asm/include ../openssl/subprojects/openssl-3.0.2
-        cmake .. -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DPOCO_MT=ON
-        cmake --build . --config Debug
-        cmake --build . --target install
-        python3 ../scripts/bundle.py debug_mt
+    #     cd openssl
+    #     meson setup builddir --buildtype=debug -Dmt=enabled
+    #     meson compile -C builddir
+    #     cd ..
+    #     mkdir -force builddir
+    #     cd builddir
+    #     cp -r -force ../openssl/subprojects/openssl-3.0.2/generated-config/archs/VC-WIN64A/no-asm/include ../openssl/subprojects/openssl-3.0.2
+    #     cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DPOCO_MT=ON
+    #     cmake --build . --config Debug
+    #     cmake --build . --target install
+    #     python3 ../scripts/bundle.py debug_mt
 
-    - if: matrix.os == 'windows-2022'
-      name: Build - Debug /MD (Windows)
-      run: |
-        rm -r builddir
-        rm -r openssl/builddir
+    # - if: matrix.os == 'windows-2022'
+    #   name: Build - Debug /MD (Windows)
+    #   run: |
+    #     rm -r builddir
+    #     rm -r openssl/builddir
 
-        cd openssl
-        meson setup builddir --buildtype=debug -Dmt=disabled
-        meson compile -C builddir
-        cd ..
-        mkdir -force builddir
-        cd builddir
-        cp -r -force ../openssl/subprojects/openssl-3.0.2/generated-config/archs/VC-WIN64A/no-asm/include ../openssl/subprojects/openssl-3.0.2
-        cmake .. -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DPOCO_MT=OFF
-        cmake --build . --config Debug
-        cmake --build . --target install
-        python3 ../scripts/bundle.py debug_md done
+    #     cd openssl
+    #     meson setup builddir --buildtype=debug -Dmt=disabled
+    #     meson compile -C builddir
+    #     cd ..
+    #     mkdir -force builddir
+    #     cd builddir
+    #     cp -r -force ../openssl/subprojects/openssl-3.0.2/generated-config/archs/VC-WIN64A/no-asm/include ../openssl/subprojects/openssl-3.0.2
+    #     cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=bundle -DENABLE_CRYPTO=ON -DBUILD_SHARED_LIBS=OFF -DPOCO_MT=OFF
+    #     cmake --build . --config Debug
+    #     cmake --build . --target install
+    #     python3 ../scripts/bundle.py debug_md done
 
     - name: Upload
       uses: ncipollo/release-action@v1.10.0
