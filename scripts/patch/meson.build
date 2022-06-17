@@ -20,10 +20,70 @@ else
 	)
 endif
 
+libcrypto_lib = static_library( 'libcrypto',
+  objects: run_command(python, 'globo', config, 'libcrypto', check: true).stdout().strip().split('\n'),
+)
+
+libssl_lib = static_library( 'libssl',
+  objects: run_command(python, 'globo', config, 'libssl', check: true).stdout().strip().split('\n'),
+)
+
+activerecord_lib = static_library( 'activerecord',
+  objects: run_command(python, 'globo', config, 'Poco/ActiveRecord', check: true).stdout().strip().split('\n'),
+)
+
+crypto_lib = static_library( 'crypto',
+  objects: run_command(python, 'globo', config, 'Poco/Crypto', check: true).stdout().strip().split('\n'),
+)
+
+data_lib = static_library( 'data',
+  objects: run_command(python, 'globo', config, 'Poco/Data', check: true).stdout().strip().split('\n'),
+)
+
+encodings_lib = static_library( 'encodings',
+  objects: run_command(python, 'globo', config, 'Poco/Encodings', check: true).stdout().strip().split('\n'),
+)
+
 foundation_lib = static_library( 'foundation',
-  objects: run_command(python, 'globo', config, 'Foundation').stdout().strip().split('\n'),
+  objects: run_command(python, 'globo', config, 'Poco/Foundation', check: true).stdout().strip().split('\n'),
 )
 
 json_lib = static_library( 'json',
-  objects: run_command(python, 'globo', config, 'JSON').stdout().strip().split('\n'),
+  objects: run_command(python, 'globo', config, 'Poco/JSON', check: true).stdout().strip().split('\n'),
+)
+
+jwt_lib = static_library( 'jwt',
+  objects: run_command(python, 'globo', config, 'Poco/JWT', check: true).stdout().strip().split('\n'),
+)
+
+mongodb_lib = static_library( 'mongodb',
+  objects: run_command(python, 'globo', config, 'Poco/MongoDB', check: true).stdout().strip().split('\n'),
+)
+
+net_lib = static_library( 'net',
+  objects: run_command(python, 'globo', config, 'Poco/Net', check: true).stdout().strip().split('\n'),
+)
+
+netssl_lib = static_library( 'netssl',
+  objects: run_command(python, 'globo', config, 'Poco/NetSSL', check: true).stdout().strip().split('\n'),
+)
+
+pagecompiler_lib = static_library( 'pagecompiler',
+  objects: run_command(python, 'globo', config, 'Poco/PageCompiler', check: true).stdout().strip().split('\n'),
+)
+
+redis_lib = static_library( 'redis',
+  objects: run_command(python, 'globo', config, 'Poco/Redis', check: true).stdout().strip().split('\n'),
+)
+
+util_lib = static_library( 'util',
+  objects: run_command(python, 'globo', config, 'Poco/Util', check: true).stdout().strip().split('\n'),
+)
+
+xml_lib = static_library( 'xml',
+  objects: run_command(python, 'globo', config, 'Poco/XML', check: true).stdout().strip().split('\n'),
+)
+
+zip_lib = static_library( 'zip',
+  objects: run_command(python, 'globo', config, 'Poco/Zip', check: true).stdout().strip().split('\n'),
 )

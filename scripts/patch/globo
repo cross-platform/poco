@@ -6,8 +6,8 @@ config = sys.argv[1]
 component = sys.argv[2]
 
 if platform.system() == 'Windows':
-	for i in glob.glob('./win/' + config + '/Poco/' + component + '/*.obj'):
+	for i in glob.glob('./win/' + config + '/' + component + '/*.obj'):
 		print(i)
 else:
-	for i in glob.glob('./mac/' + config + '/Poco/' + component + '/*.o'):
+	for i in glob.glob('./mac/' + config + '/' + component + '/*.o'):
 		print(i)
