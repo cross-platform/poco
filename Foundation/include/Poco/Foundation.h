@@ -19,6 +19,11 @@
 #ifndef Foundation_Foundation_INCLUDED
 #define Foundation_Foundation_INCLUDED
 
+#if defined(_WIN32)
+	#pragma comment(lib, "ws2_32.lib")
+	#pragma comment(lib, "iphlpapi.lib")
+	#pragma comment(lib, "crypt32.lib")
+#endif
 
 //
 // Include library configuration
