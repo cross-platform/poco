@@ -3,6 +3,7 @@ project('poco')
 python = find_program('python', 'python3', required : true)
 
 if host_machine.system() == 'windows'
+  platform = 'win'
   config_mt = 'release_mt'
   config_md = 'release_md'
 
@@ -11,6 +12,7 @@ if host_machine.system() == 'windows'
     include_directories: 'win/include'
   )
 else
+  platform = 'mac'
   config_mt = 'release'
   config_md = 'release'
 
@@ -20,19 +22,13 @@ else
   )
 endif
 
-libcrypto_lib = static_library( 'libcrypto',
-  objects: run_command(python, 'globo', config_mt, 'libcrypto', check: true).stdout().strip().split('\n'),
-)
-libcrypto_lib_md = static_library( 'libcrypto_md',
-  objects: run_command(python, 'globo', config_md, 'libcrypto', check: true).stdout().strip().split('\n'),
-)
+cpp = meson.get_compiler('cpp')
 
-libssl_lib = static_library( 'libssl',
-  objects: run_command(python, 'globo', config_mt, 'libssl', check: true).stdout().strip().split('\n'),
-)
-libssl_lib_md = static_library( 'libssl_md',
-  objects: run_command(python, 'globo', config_md, 'libssl', check: true).stdout().strip().split('\n'),
-)
+libcrypto_dep = cpp.find_library('crypto', dirs: meson.current_source_dir() + '/' + platform + '/' + config_mt, required: true)
+libcrypto_dep_md = cpp.find_library('crypto', dirs: meson.current_source_dir() + '/' + platform + '/' + config_md, required: true)
+
+libssl_dep = cpp.find_library('ssl', dirs: meson.current_source_dir() + '/' + platform + '/' + config_mt, required: true)
+libssl_dep_md = cpp.find_library('ssl', dirs: meson.current_source_dir() + '/' + platform + '/' + config_md, required: true)
 
 activerecord_lib = static_library( 'activerecord',
   objects: run_command(python, 'globo', config_mt, 'Poco/ActiveRecord', check: true).stdout().strip().split('\n'),

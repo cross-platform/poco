@@ -27,32 +27,15 @@ shutil.copytree(srcdir + '/openssl/subprojects/openssl-3.0.2/include', bundledir
 
 shutil.copytree(srcdir + '/builddir/bundle/include/Poco', bundledir + '/poco/' + opsys + '/include/Poco')
 
-# bundle openssl objects
+# bundle openssl libs
 
 if os.path.exists(configdir):
     shutil.rmtree(configdir)
 
-os.makedirs(configdir + '/libcrypto')
+os.makedirs(configdir)
 
-if platform.system() == 'Windows':
-    files = glob.iglob(os.path.join(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libcrypto.a.p/*.obj'))
-else:
-    files = glob.iglob(os.path.join(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libcrypto.a.p/*.o'))
-
-for file in files:
-    if os.path.isfile(file):
-        shutil.copy2(file, configdir + '/libcrypto')
-
-os.makedirs(configdir + '/libssl')
-
-if platform.system() == 'Windows':
-    files = glob.iglob(os.path.join(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libssl.a.p/*.obj'))
-else:
-    files = glob.iglob(os.path.join(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libssl.a.p/*.o'))
-
-for file in files:
-    if os.path.isfile(file):
-        shutil.copy2(file, configdir + '/libssl')
+shutil.copy2(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libcrypto.a', configdir)
+shutil.copy2(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libssl.a', configdir)
 
 # bundle poco objects
 
