@@ -17,12 +17,14 @@ lipo -create -output builddir/subprojects/openssl-3.0.2/libssl.a arm-build/subpr
 
 cd arm-build
 
+others=()
+
 for filename in subprojects/openssl-3.0.2/libcrypto.a.p/*.o; do
 	if [ -f "../x64-build/$filename" ]
 	then
 		lipo -create -output ../builddir/$filename ../x64-build/$filename $filename
 	else
-		cp $filename ../builddir/$filename
+		others+=( "arm-build/$filename" )
 	fi
 done
 
@@ -30,8 +32,6 @@ for filename in subprojects/openssl-3.0.2/libssl.a.p/*.o; do
 	if [ -f "../x64-build/$filename" ]
 	then
 		lipo -create -output ../builddir/$filename ../x64-build/$filename $filename
-	else
-		cp $filename ../builddir/$filename
 	fi
 done
 
@@ -40,13 +40,10 @@ cd ../x64-build
 for filename in subprojects/openssl-3.0.2/libcrypto.a.p/*.o; do
 	if [ ! -f "../arm-build/$filename" ]
 	then
-		cp $filename ../builddir/$filename
+		others+=( "x64-build/$filename" )
 	fi
 done
 
-for filename in subprojects/openssl-3.0.2/libssl.a.p/*.o; do
-	if [ ! -f "../arm-build/$filename" ]
-	then
-		cp $filename ../builddir/$filename
-	fi
-done
+cd ..
+
+lipo -create -output builddir/subprojects/openssl-3.0.2/libcrypto.a.p/others.o $others
