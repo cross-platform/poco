@@ -51,6 +51,20 @@ data_lib_md = static_library( 'data_md',
   objects: run_command(python, 'globo', config_md, 'Poco/Data', check: true).stdout().strip().split('\n'),
 )
 
+dataodbc_lib = static_library( 'dataodbc',
+  objects: run_command(python, 'globo', config_mt, 'Poco/DataODBC', check: true).stdout().strip().split('\n'),
+)
+dataodbc_lib_md = static_library( 'dataodbc_md',
+  objects: run_command(python, 'globo', config_md, 'Poco/DataODBC', check: true).stdout().strip().split('\n'),
+)
+
+datasqlite_lib = static_library( 'datasqlite',
+  objects: run_command(python, 'globo', config_mt, 'Poco/DataSQLite', check: true).stdout().strip().split('\n'),
+)
+datasqlite_lib_md = static_library( 'datasqlite_md',
+  objects: run_command(python, 'globo', config_md, 'Poco/DataSQLite', check: true).stdout().strip().split('\n'),
+)
+
 encodings_lib = static_library( 'encodings',
   objects: run_command(python, 'globo', config_mt, 'Poco/Encodings', check: true).stdout().strip().split('\n'),
 )

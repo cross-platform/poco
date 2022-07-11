@@ -39,11 +39,14 @@ shutil.copy2(srcdir + '/openssl/builddir/subprojects/openssl-3.0.2/libssl.a', co
 
 # bundle poco objects
 
-components = ['ActiveRecord', 'Crypto', 'Data', 'Encodings', 'Foundation', 'JSON', 'JWT', 'MongoDB',
+components = ['ActiveRecord', 'Crypto', 'Data', 'Data/ODBC', 'Data/SQLite', 'Encodings', 'Foundation', 'JSON', 'JWT', 'MongoDB',
               'Net', 'NetSSL_OpenSSL', 'PageCompiler', 'Redis', 'Util', 'XML', 'Zip']
 
 for component in components:
-    component_base = component.split('_')[0]
+    if '/' in component:
+        component_base = component.replace('/', '')
+    else:
+        component_base = component.split('_')[0]
 
     os.makedirs(configdir + '/Poco/' + component_base)
 
