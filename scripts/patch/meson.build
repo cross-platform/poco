@@ -8,7 +8,7 @@ if host_machine.system() == 'windows'
   config_md = 'release_md'
 
   poco_dep = declare_dependency(
-    compile_args: ['-DPOCO_NO_AUTOMATIC_LIBS', '-DPOCO_STATIC', '/wd4127', '/wd4244'],
+    compile_args: ['-DPOCO_NO_AUTOMATIC_LIBS', '-DPOCO_STATIC', '/wd4127', '/wd4244', '/wd4245'],
     include_directories: 'win/include'
   )
 else
