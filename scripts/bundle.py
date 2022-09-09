@@ -69,10 +69,7 @@ shutil.copy2(curdir + '/patch/meson.build', bundledir + '/poco/meson.build')
 
 # zip
 
-if platform.system() == 'Windows':
-    bundlezip = curdir + '/poco-win'
-else:
-    bundlezip = curdir + '/poco-mac'
+bundlezip = curdir + '/poco-' + opsys
 
 if len(sys.argv) > 3:
     shutil.make_archive(bundlezip, 'zip', bundledir)

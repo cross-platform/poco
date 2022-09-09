@@ -11,7 +11,7 @@ if host_machine.system() == 'windows'
     compile_args: ['-DPOCO_NO_AUTOMATIC_LIBS', '-DPOCO_STATIC', '/wd4127', '/wd4244', '/wd4245'],
     include_directories: 'win/include'
   )
-else
+elif host_machine.system() == 'darwin'
   platform = 'mac'
   config_mt = 'release'
   config_md = 'release'
@@ -19,6 +19,15 @@ else
   poco_dep = declare_dependency(
     compile_args: ['-Wno-deprecated-declarations', '-Wno-sign-compare'],
     include_directories: 'mac/include'
+  )
+else
+  platform = 'linux'
+  config_mt = 'release'
+  config_md = 'release'
+
+  poco_dep = declare_dependency(
+    compile_args: ['-Wno-deprecated-declarations', '-Wno-sign-compare'],
+    include_directories: 'linux/include'
   )
 endif
 

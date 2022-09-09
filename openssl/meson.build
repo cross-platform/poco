@@ -11,7 +11,7 @@ if host_machine.system() == 'windows'
     else
         add_global_arguments('/MD', language: 'c')
     endif
-else
+elif host_machine.system() == 'darwin'
     add_global_arguments('-mmacosx-version-min=10.15', language: 'c')
 endif
 

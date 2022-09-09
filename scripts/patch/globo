@@ -8,6 +8,9 @@ component = sys.argv[2]
 if platform.system() == 'Windows':
 	for i in glob.glob('./win/' + config + '/' + component + '/*.obj'):
 		print(i)
-else:
+elif platform.system() == 'Darwin':
 	for i in glob.glob('./mac/' + config + '/' + component + '/*.o'):
+		print(i)
+else:
+	for i in glob.glob('./linux/' + config + '/' + component + '/*.o'):
 		print(i)
