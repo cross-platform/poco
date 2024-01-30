@@ -16,6 +16,11 @@ jobs:
       name: Configure MSVC (Windows)
       uses: ilammy/msvc-dev-cmd@v1
 
+    - if: matrix.os == 'macos-11'
+      name: Configure Xcode (MacOS)
+      run: |
+        sudo xcode-select -s /Applications/Xcode_11.7.app/Contents/Developer
+
     - name: Install Meson and Ninja
       run: |
         pip3 install --upgrade meson ninja
