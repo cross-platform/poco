@@ -9,10 +9,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-11, ubuntu-22.04, windows-2022]
+        os: [macos-11, ubuntu-22.04, windows-2019]
 
     steps:
-    - if: matrix.os == 'windows-2022'
+    - if: matrix.os == 'windows-2019'
       name: Configure MSVC (Windows)
       uses: ilammy/msvc-dev-cmd@v1
 
@@ -58,7 +58,7 @@ jobs:
         cmake --build . --target install
         python3 ../scripts/bundle.py linux release done
 
-    - if: matrix.os == 'windows-2022'
+    - if: matrix.os == 'windows-2019'
       name: Build - Release /MT (Windows)
       run: |
         cd openssl
@@ -73,7 +73,7 @@ jobs:
         cmake --build . --target install
         python3 ../scripts/bundle.py win release_mt
 
-    - if: matrix.os == 'windows-2022'
+    - if: matrix.os == 'windows-2019'
       name: Build - Release /MD (Windows)
       run: |
         rm -r builddir
