@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-11, ubuntu-22.04, windows-2022]
+        os: [macos-11, ubuntu-20.04, windows-2022]
 
     steps:
     - if: matrix.os == 'windows-2022'
@@ -43,7 +43,7 @@ jobs:
         cmake --build . --target install
         python3 ../scripts/bundle.py mac release done
 
-    - if: matrix.os == 'ubuntu-22.04'
+    - if: matrix.os == 'ubuntu-20.04'
       name: Build - Release (Linux)
       run: |
         cd openssl
