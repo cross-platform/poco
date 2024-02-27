@@ -145,6 +145,13 @@ cmake-build/
 stage/
 releases/
 
+# OpenSSL #
+###########
+builddir
+openssl/subprojects/openssl-*
+openssl/subprojects/packagecache
+scripts/bundle
+
 # vim #
 #######
 *.orig
